@@ -12,15 +12,33 @@ query fetchLandingPage {
       }
       navbar(preview: true) {
         ... on NavBar {
-          navItemsCollection(limit: 4) {
+          navItemsCollection(limit: 5) {
             items {
               ... on NavItem {
                 title
                 slug
+              },
+            }
+          },
+          ... on NavBar {
+            logo {
+              ... on ImageWrapper {
+                image {
+                  url
+                },
+                altText,
+                slug
               }
             }
           }
-        }
+        },
+        ... on ImageWrapper {
+                image {
+                  url
+                },
+                altText,
+                slug
+              }
       }
       sectionsCollection(preview: true) {
         items {
@@ -38,6 +56,7 @@ query fetchLandingPage {
             }
           }
           ... on OurCollection {
+            availableCoffees,
             coffeesCollection(limit: 4) {
               items {
                 ... on CoffeeType {
@@ -126,22 +145,33 @@ query fetchLandingPage {
         }
       }
     }
-  }
+  }  
 `;
 
 export const fetchLandingPage = async () => {
-  const response = await fetch(
-    `https://graphql.contentful.com/content/v1/spaces/${process.env.CONTENTFUL_SPACE_ID}/environments/master`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${process.env.CONTENTFUL_CPA_KEY}`
-      },
-      body: JSON.stringify({ query: landingPageQuery })
+  try {
+    const response = await fetch(
+      `https://graphql.contentful.com/content/v1/spaces/${process.env.CONTENTFUL_SPACE_ID}/environments/master`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${process.env.CONTENTFUL_CPA_KEY}`,
+        },
+        body: JSON.stringify({ query: landingPageQuery }),
+      }
+    );
+
+    if (!response.ok) {
+      console.error("Error", response.statusText);
     }
-  );
 
-  const data = await response.json();
+    const data = await response.json();
 
-  return data;
+    return data;
+  } catch (error) {
+    console.error("Error", error);
+
+    return null;
+  }
 };
