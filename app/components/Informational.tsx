@@ -20,7 +20,7 @@ type InformationProps = {
 }
 
 const Informational = ({ informationalData }: InformationProps) => {
-  console.log("INFO = ", informationalData)
+  // console.log("INFO = ", informationalData)
   const { title, description } = informationalData;
   const { items } = informationalData.cardsCollection;
   return (
@@ -32,7 +32,7 @@ const Informational = ({ informationalData }: InformationProps) => {
           {items.map((item) => (
             <li key={item.title} className="flex flex-col items-center bg-emerald-700 rounded-lg w-80 h-72 justify-center -mb-28 p-4">
               <Image src={item.image.image.url} alt={item.image.altText} width={80} height={80} className="mb-8" />
-              <h5 className="font-bold text-gray-300 mb-2">{item.title}</h5>
+              <h5 className="font-bold text-white mb-2">{item.title}</h5>
               <p className="text-gray-300">{item.description}</p>
             </li>
           ))}

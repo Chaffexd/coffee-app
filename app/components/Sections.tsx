@@ -1,6 +1,7 @@
 import Header from "./Header";
 import Informational from "./Informational";
 import OurCollection from "./OurCollection";
+import Steps from "./Steps";
 
 type SectionProps = {
   sectionsData: {
@@ -30,6 +31,7 @@ const Sections = ({ sectionsData }: SectionProps) => {
       <Header headerData={headerData} />
       <OurCollection coffeeCollectionData={coffeeCollectionData} />
       <Informational informationalData={informationalData}  />
+      <Steps stepsData={stepsData} />
     </>
   );
 };
