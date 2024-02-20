@@ -12,7 +12,6 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const { data } = await fetchNavAndFoot();
-  console.log("LAYOUT = ", data);
 
   const { navbar, footer } = data.page;
 
