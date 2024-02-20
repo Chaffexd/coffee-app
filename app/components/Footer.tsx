@@ -41,7 +41,7 @@ const Footer = ({ footerData }: FooterProps) => {
   const instagramAlt = footerData.socialsCollection.items[2].altText;
 
   return (
-    <footer className="bg-gray-800 flex items-center justify-between h-20 px-8 mt-40 w-full">
+    <footer className="bg-gray-800 flex items-center justify-between h-20 px-8 mt-40 rounded-t-lg w-9/12 m-auto">
       <div className="flex">
         <Image src={url} alt={altText} width={200} height={40} className="mr-8" />
         <ul className="flex">

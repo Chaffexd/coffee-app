@@ -7,7 +7,7 @@ export default async function Home() {
   const { data } = await fetchLandingPage();
   // console.log("QUERY DATA == ", data.page);
 
-  const { navbar, sectionsCollection, seoMetadata, footer } = data.page;
+  const { sectionsCollection, seoMetadata } = data.page;
   console.log("seoMetadata", data);
 
   return (
@@ -15,9 +15,7 @@ export default async function Home() {
       <title>{seoMetadata.title}</title>
       <meta name="description" content={seoMetadata.description} />
       <meta name="keywords" content={seoMetadata.keywords} />
-      <NavBar navData={navbar} />
       <Sections sectionsData={sectionsCollection} />
-      <Footer footerData={footer} />
     </>
   );
 }

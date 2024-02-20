@@ -26,7 +26,7 @@ const NavBar = ({ navData }: NavProps) => {
   const altText = navData.logo.altText;
 
   return (
-    <header>
+    <header className="w-9/12 m-auto">
       <nav className="w-full">
         <ul className="flex justify-between items-center h-20">
           <Image src={logo} alt={altText} width={200} height={40} />
