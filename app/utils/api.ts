@@ -10,36 +10,6 @@ query fetchLandingPage {
           keywords
         }
       }
-      navbar(preview: true) {
-        ... on NavBar {
-          navItemsCollection(limit: 5) {
-            items {
-              ... on NavItem {
-                title
-                slug
-              },
-            }
-          },
-          ... on NavBar {
-            logo {
-              ... on ImageWrapper {
-                image {
-                  url
-                },
-                altText,
-                slug
-              }
-            }
-          }
-        },
-        ... on ImageWrapper {
-                image {
-                  url
-                },
-                altText,
-                slug
-              }
-      }
       sectionsCollection(preview: true) {
         items {
           ... on Header {
@@ -113,37 +83,6 @@ query fetchLandingPage {
           }
         }
       },
-      footer {
-        ... on Footer {
-          logo {
-            ... on ImageWrapper {
-              altText,
-              image {
-                url
-              }
-            }
-          },
-          companyName,
-          navItemsCollection(limit: 3) {
-            items {
-              ... on NavItem {
-                title,
-                slug
-              }
-            }
-          },
-          socialsCollection(limit: 3) {
-            items {
-              ... on ImageWrapper {
-                image {
-                  url
-                },
-                altText
-              }
-            }
-          }
-        }
-      }
     }
   }  
 `;
@@ -175,3 +114,95 @@ export const fetchLandingPage = async () => {
     return null;
   }
 };
+
+
+
+export const dynamicPageQuery = `
+query fetchPage($slugId: String) {
+    pageCollection(where: { slug: $slugId }, preview: true) {
+      items {
+        title
+        seoMetadata {
+          ... on Metadata {
+            title
+            description
+            keywords
+          }
+        }
+        sectionsCollection(limit: 6) {
+          items {
+            ... on Header {
+              title
+              description
+              headerImage {
+                url
+              }
+            }
+            ... on Card {
+              title
+              description
+              descriptionLong
+              image {
+                ... on ImageWrapper {
+                  image {
+                    url
+                  }
+                  altText
+                }
+              }
+            }
+            ... on InformationalCard {
+              title
+              description
+              cardsCollection(limit: 4) {
+                items {
+                  ... on Card {
+                    title
+                    description
+                    descriptionLong
+                    image {
+                      ... on ImageWrapper {
+                        image {
+                          url
+                        }
+                        altText
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }  
+`
+
+export const fetchDynamicPage = async (slug: string) => {
+    try {
+      const response = await fetch(
+        `https://graphql.contentful.com/content/v1/spaces/${process.env.CONTENTFUL_SPACE_ID}/environments/master`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${process.env.CONTENTFUL_CPA_KEY}`,
+          },
+          body: JSON.stringify({ query: dynamicPageQuery, variables: { slugId: slug } }),
+        }
+      );
+  
+      if (!response.ok) {
+        console.error("Error", response.statusText);
+      }
+  
+      const data = await response.json();
+  
+      return data;
+    } catch (error) {
+      console.error("Error", error);
+  
+      return null;
+    }
+  };

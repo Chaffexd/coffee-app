@@ -28,7 +28,6 @@ type FooterProps = {
 };
 
 const Footer = ({ footerData }: FooterProps) => {
-  console.log("FOOTER = ", footerData.socialsCollection.items);
   const { url } = footerData.logo.image;
   const { altText } = footerData.logo;
   const { items } = footerData.navItemsCollection;
