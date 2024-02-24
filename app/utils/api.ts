@@ -115,8 +115,6 @@ export const fetchLandingPage = async () => {
   }
 };
 
-
-
 export const dynamicPageQuery = `
 query fetchPage($slugId: String) {
     pageCollection(where: { slug: $slugId }, preview: true) {
@@ -177,32 +175,66 @@ query fetchPage($slugId: String) {
       }
     }
   }  
-`
+`;
 
 export const fetchDynamicPage = async (slug: string) => {
-    try {
-      const response = await fetch(
-        `https://graphql.contentful.com/content/v1/spaces/${process.env.CONTENTFUL_SPACE_ID}/environments/master`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${process.env.CONTENTFUL_CPA_KEY}`,
-          },
-          body: JSON.stringify({ query: dynamicPageQuery, variables: { slugId: slug } }),
-        }
-      );
-  
-      if (!response.ok) {
-        console.error("Error", response.statusText);
+  try {
+    const response = await fetch(
+      `https://graphql.contentful.com/content/v1/spaces/${process.env.CONTENTFUL_SPACE_ID}/environments/master`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${process.env.CONTENTFUL_CPA_KEY}`,
+        },
+        body: JSON.stringify({
+          query: dynamicPageQuery,
+          variables: { slugId: slug },
+        }),
       }
-  
-      const data = await response.json();
-  
-      return data;
-    } catch (error) {
-      console.error("Error", error);
-  
-      return null;
+    );
+
+    if (!response.ok) {
+      console.error("Error", response.statusText);
     }
-  };
+
+    const data = await response.json();
+
+    return data;
+  } catch (error) {
+    console.error("Error", error);
+
+    return null;
+  }
+};
+
+export const fetchAboutPage = async (slug: string) => {
+  try {
+    const response = await fetch(
+      `https://graphql.contentful.com/content/v1/spaces/${process.env.CONTENTFUL_SPACE_ID}/environments/master`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${process.env.CONTENTFUL_CPA_KEY}`,
+        },
+        body: JSON.stringify({
+          query: dynamicPageQuery,
+          variables: { slugId: slug },
+        }),
+      }
+    );
+
+    if (!response.ok) {
+      console.error("Error", response.statusText);
+    }
+
+    const data = await response.json();
+
+    return data;
+  } catch (error) {
+    console.error("Error", error);
+
+    return null;
+  }
+};
