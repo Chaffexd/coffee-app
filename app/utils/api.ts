@@ -116,56 +116,34 @@ export const fetchLandingPage = async () => {
 };
 
 export const dynamicPageQuery = `
-query fetchPage($slugId: String) {
-    pageCollection(where: { slug: $slugId }, preview: true) {
+query fetchPlanPage{
+    pageCollection(where: { slug: "create-your-plan" }, preview: true) {
       items {
-        title
+        title,
         seoMetadata {
           ... on Metadata {
-            title
-            description
+            title,
+            description,
             keywords
           }
         }
-        sectionsCollection(limit: 6) {
+        sectionsCollection(limit: 4, preview: true) {
           items {
             ... on Header {
-              title
-              description
+              title,
+              description,
               headerImage {
                 url
               }
             }
-            ... on Card {
-              title
-              description
-              descriptionLong
-              image {
-                ... on ImageWrapper {
-                  image {
-                    url
-                  }
-                  altText
-                }
-              }
-            }
             ... on InformationalCard {
-              title
-              description
-              cardsCollection(limit: 4) {
+              title,
+              cardsCollection(limit: 3, preview: true) {
                 items {
                   ... on Card {
-                    title
-                    description
-                    descriptionLong
-                    image {
-                      ... on ImageWrapper {
-                        image {
-                          url
-                        }
-                        altText
-                      }
-                    }
+                    title,
+                    description,
+                    step
                   }
                 }
               }
@@ -174,7 +152,7 @@ query fetchPage($slugId: String) {
         }
       }
     }
-  }  
+  }
 `;
 
 export const fetchDynamicPage = async (slug: string) => {

@@ -26,7 +26,7 @@ const Headquarters = ({ headquarters }: HeadquartersProps) => {
       <h4 className="text-4xl">{title}</h4>
       <div className="flex justify-between mt-16">
         {cardsCollection.items.map((location) => (
-            <div className="w-1/4">
+            <div className="w-1/4" key={location.title}>
                 <Image src={location.image.image.url} alt={location.image.altText} width={50} height={50} />
                 <h5 className="my-8 text-2xl">{location.title}</h5>
                 <p>{location.descriptionLong}</p>
